@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.uam.tiendajavafx.controller.MainController">
+    <top>
+        <VBox spacing="5" style="-fx-padding: 18; -fx-background-color: #1f4e78;">
+            <Label text="Tienda JavaFX + PostgreSQL + JDBC" style="-fx-text-fill: white; -fx-font-size: 24px; -fx-font-weight: bold;"/>
+            <Label text="Programación de Aplicaciones de Escritorio" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            <Label fx:id="lblEstado" text="Comprobando conexión..." style="-fx-text-fill: white;"/>
+        </VBox>
+    </top>
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <Tab text="Categorías">
+                <BorderPane>
+                    <top>
+                        <GridPane hgap="10" vgap="10" style="-fx-padding: 15;">
+                            <columnConstraints><ColumnConstraints minWidth="110"/><ColumnConstraints hgrow="ALWAYS"/><ColumnConstraints minWidth="250"/></columnConstraints>
+                            <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                            <TextField fx:id="txtCategoria" promptText="Ej. Bebidas" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                            <CheckBox fx:id="chkCategoriaActiva" text="Categoría activa" selected="true" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                            <HBox spacing="8" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                                <Button text="Guardar" onAction="#guardarCategoria"/>
+                                <Button text="Actualizar" onAction="#actualizarCategoria"/>
+                                <Button text="Desactivar" onAction="#desactivarCategoria"/>
+                                <Button text="Eliminar" onAction="#eliminarCategoria"/>
+                                <Button text="Limpiar" onAction="#limpiarCategoria"/>
+                            </HBox>
+                        </GridPane>
+                    </top>
+                    <center>
+                        <TableView fx:id="tablaCategorias">
+                            <columns>
+                                <TableColumn fx:id="colCategoriaId" text="ID" prefWidth="90"/>
+                                <TableColumn fx:id="colCategoriaNombre" text="Nombre" prefWidth="350"/>
+                                <TableColumn fx:id="colCategoriaActiva" text="Activa" prefWidth="150"/>
+                            </columns>
+                        </TableView>
+                    </center>
+                </BorderPane>
+            </Tab>
+            <Tab text="Productos">
+                <BorderPane>
+                    <top>
+                        <GridPane hgap="10" vgap="10" style="-fx-padding: 15;">
+                            <columnConstraints>
+                                <ColumnConstraints minWidth="105"/><ColumnConstraints hgrow="ALWAYS"/>
+                                <ColumnConstraints minWidth="105"/><ColumnConstraints hgrow="ALWAYS"/>
+                            </columnConstraints>
+                            <Label text="Código:" GridPane.rowIndex="0" GridPane.columnIndex="0"/><TextField fx:id="txtCodigo" promptText="P001" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                            <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="2"/><TextField fx:id="txtProducto" promptText="Producto" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+                            <Label text="Categoría:" GridPane.rowIndex="1" GridPane.columnIndex="0"/><ComboBox fx:id="cbCategoria" promptText="Seleccione" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                            <Label text="Precio:" GridPane.rowIndex="1" GridPane.columnIndex="2"/><TextField fx:id="txtPrecio" promptText="0.00" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+                            <Label text="Existencia:" GridPane.rowIndex="2" GridPane.columnIndex="0"/><TextField fx:id="txtExistencia" promptText="0" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                            <Label text="Ruta imagen:" GridPane.rowIndex="2" GridPane.columnIndex="2"/><TextField fx:id="txtRutaImagen" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                            <HBox spacing="10" GridPane.rowIndex="3" GridPane.columnIndex="1" GridPane.columnSpan="3">
+                                <CheckBox fx:id="chkActivo" text="Producto activo" selected="true"/>
+                                <Button text="Guardar" onAction="#guardarProducto"/>
+                                <Button text="Actualizar" onAction="#actualizarProducto"/>
+                                <Button text="Desactivar" onAction="#desactivarProducto"/>
+                                <Button text="Eliminar" onAction="#eliminarProducto"/>
+                                <Button text="Limpiar" onAction="#limpiarProducto"/>
+                            </HBox>
+                        </GridPane>
+
+                    </top>
+                    <center>
+                        <TableView fx:id="tablaProductos">
+                            <columns>
+                                <TableColumn fx:id="colProductoId" text="ID" prefWidth="60"/>
+                                <TableColumn fx:id="colCodigo" text="Código" prefWidth="100"/>
+                                <TableColumn fx:id="colProductoNombre" text="Nombre" prefWidth="220"/>
+                                <TableColumn fx:id="colProductoCategoria" text="Categoría" prefWidth="160"/>
+                                <TableColumn fx:id="colPrecio" text="Precio" prefWidth="110"/>
+                                <TableColumn fx:id="colExistencia" text="Existencia" prefWidth="110"/>
+                                <TableColumn fx:id="colActivo" text="Activo" prefWidth="90"/>
+                            </columns>
+                        </TableView>
+                    </center>
+                </BorderPane>
+            </Tab>
+        </TabPane>
+    </center>
+    <bottom>
+        <Label text="Connection • PreparedStatement • DAO • CRUD" style="-fx-padding: 10; -fx-font-weight: bold;"/>
+    </bottom>
+</BorderPane>
