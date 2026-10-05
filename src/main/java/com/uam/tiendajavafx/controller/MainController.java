@@ -200,9 +200,21 @@ public class MainController {
         String codigo = txtCodigo.getText().trim();
         String nombre = txtProducto.getText().trim();
         Categoria categoria = cbCategoria.getValue();
+
+        int existencia = Integer.parseInt(txtExistencia.getText().trim());
+        BigDecimal precio = new BigDecimal(txtPrecio.getText().trim());
+
         if (codigo.isBlank() || nombre.isBlank() || categoria == null || txtPrecio.getText().isBlank() || txtExistencia.getText().isBlank()) {
             throw new IllegalArgumentException("Completa los campos obligatorios.");
         }
+
+        if (existencia < 0) {
+            throw new IllegalArgumentException("La existencia no puede ser un número negativo.");
+        }
+        if (precio.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("El precio no puede ser un número negativo.");
+        }
+
         if (!updating && categoria.getId() == null) throw new IllegalArgumentException("La categoría no es válida.");
         return new Producto(null, codigo, nombre, categoria, new BigDecimal(txtPrecio.getText().trim()), Integer.parseInt(txtExistencia.getText().trim()),
                 txtRutaImagen.getText().trim().isBlank() ? null : txtRutaImagen.getText().trim(), chkActivo.isSelected());
