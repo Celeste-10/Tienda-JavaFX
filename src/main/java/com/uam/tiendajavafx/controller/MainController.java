@@ -82,6 +82,15 @@ public class MainController {
             alert(Alert.AlertType.WARNING, "Dato requerido", "Escribe el nombre de la categoría.");
             return;
         }
+
+        boolean existe = tablaCategorias.getItems().stream()
+                .anyMatch(c -> c.getNombre().equalsIgnoreCase(nombre));
+
+        if (existe) {
+            alert(Alert.AlertType.WARNING, "Categoría duplicada", "Ya existe una categoría con este nombre.");
+            return;
+        }
+
         try {
             categoriaDAO.guardar(new Categoria(null, nombre, chkCategoriaActiva.isSelected()));
             limpiarCategoria();
