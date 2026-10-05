@@ -139,16 +139,25 @@ public class MainController {
     }
 
     @FXML private void guardarProducto() {
+
         try {
             Producto producto = leerProducto(false);
             productoDAO.guardar(producto);
             limpiarProducto();
             cargarProductos();
             info("Producto guardado", "El producto fue insertado usando PreparedStatement.");
+
         } catch (NumberFormatException e) {
             alert(Alert.AlertType.WARNING, "Datos numéricos", "Precio y existencia deben ser números válidos.");
-        } catch (IllegalArgumentException | SQLException e) {
+        } catch (IllegalArgumentException e) {
             error(e);
+        } catch (SQLException e) {
+            // Código de error de PostgreSQL para llave duplicada (23505) o comprobación por texto
+            if (e.getSQLState() != null && e.getSQLState().equals("23505")) {
+                alert(Alert.AlertType.WARNING, "Código duplicado", "Ya existe un producto registrado con este código.");
+            } else {
+                error(e);
+            }
         }
     }
 
@@ -211,8 +220,8 @@ public class MainController {
         if (existencia < 0) {
             throw new IllegalArgumentException("La existencia no puede ser un número negativo.");
         }
-        if (precio.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("El precio no puede ser un número negativo.");
+        if (precio.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("El precio debe ser un número mayor a cero.");
         }
 
         if (!updating && categoria.getId() == null) throw new IllegalArgumentException("La categoría no es válida.");
